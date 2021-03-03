@@ -1,5 +1,3 @@
-# 100. Same Tree
-
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -7,75 +5,57 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
         
-        # We create a stack:
-        #     - we search through the binary tree using BREADTH search
+    # ***Note:
+    #     - Iterative: Using Stack
+    #     - Recursive: Using Recursion
         
-        # Have two queues: p_queue; q_queue:
-        #         - initialize them with the first nodes, p and q, in each stack
-        #         - compare the values of them by popping them:
-        #             - equal: get the left node values of p and q to compare
-        #                 -> equal: compare the right node 
-        #                     -> equal: (starting) AND set the root to left node
-        #                     -> no equal: return false
-        #             - not equal:return false
+# -------------------------INTERATIVELY--------------------------------------------------------
+        result_list = []
+        stack_list = []
+        
+        # As long as we still have items left in stack and the node(s) left to go through, 
+        # we want to keep traversing through the tree
+        while len(stack_list) != 0 or root != None:
             
-# Note: (Using list as queue, maybe can try to use queue() in python next time.)            
-        
+            # we want to keep going to left until we reach the leftest node:
+            #     - at the meantime: put the node that we passed through in stack (so we can pop them out when we reach their individual leftest node)
+            
+            #     - when there's no more left node, we get the value of the last left node (by popping the stack; last-in value is the value of current last left node (since the root is None, aka not-existing left node))
+            #     - set the root = "leftest node"/current root.right
+            #     - if there's a right node (aka root != null/None) -> we go through this process again (end of this big while loop)
+            #     - if no right node: Pop the last value in the stack (aka the closest ancestor of that left tree; the "root" before the left tree becomes a root)
+            #         - set its right node = root -> we go through this process again (end of this big while loop)
+            # *** Note: we need to add the root to the stack, NOT just the value of the root! (when we pop the stack, we reset the root to it's previous ancestor)***
+            
+            # (walking through the tree): getting values in stack while searching through the left nodes
+            while root != None:
+                stack_list.append(root)
+                root = root.left
+            
+            # if root == None (we reach out last left node); outside of the nested while loop
+            root = stack_list.pop()
+            result_list.append(root.val)
+            root = root.right
+            
+        # if no more root left in the tree nor the stack: we finished! return out result_list!
+        return result_list
     
-    # *** Check for the empty tree (I missed this part)
-        if p == None and q == None:
-            return True
-        elif p == None or q == None:
-            return False
-    
-    # Once we know that we have two non-empty trees: check them
-        p_queue = [p]
-        q_queue = [q]
-        print(p_queue, q_queue)
-        
-        while (len(p_queue) != 0  and len(q_queue) != 0):
-            node_p = p_queue.pop(0)
-            node_q = q_queue.pop(0)
+
+# TODO: Using stack for iteration solution (inorder traversal)
+# TODO: Recursion
             
-            # (check left) if the node is equal:
-            #     there is a left node in both tree: add them and compare the queue
-            #     there is no left nod in both tree: check right node
-            if node_p.val != node_q.val:
-                return False
+            
                 
-            if node_p.left != None and node_q.left != None:
-                    p_queue.append(node_p.left)
-                    q_queue.append(node_q.left)
-                    
-            # If one has a left node, another one don't
-            elif node_p.left != None or node_q.left != None:
-                return False
-            
-            # (check right)
-            if node_p.right != None and node_q.right != None:
-                p_queue.append(node_p.right)
-                q_queue.append(node_q.right)
                 
-            elif node_p.right != None or node_q.right != None:
-                return False
-        
-        return True
                 
-            
-            
-# TODO: Recursive method
-            
-            
-            
-            
-            
-            
-            
-            
-                    
                 
-        
-        
+                
+                
+                
+                
+                
+                
+                
         
