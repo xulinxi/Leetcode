@@ -23,7 +23,8 @@ class Solution:
             rightSub = queue.pop(0)
             
             if leftSub is None and rightSub is None:
-                return True
+                # !!!Note: in iterative we have to continue checking, but in recursive we can return true becuase we've reached the base case!!!
+                continue
             if leftSub is None or rightSub is None:
                 return False
             if leftSub.val != rightSub.val:
@@ -40,18 +41,7 @@ class Solution:
             
                 
                 
-                
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         
 #         # Recursive Method--------------------------------------------------
@@ -81,27 +71,6 @@ class Solution:
 #         else:
 #             return False
 
-        # ----------------------------(referenced answer)
-#       def isSymmetric(self, root):
-#         if root is None:
-#           return True
-#         else:
-#           return self.isMirror(root.left, root.right)
-
-#       def isMirror(self, left, right):
-#         if left is None and right is None:
-#           return True
-#         if left is None or right is None:
-#           return False
-
-#         if left.val == right.val:
-#           outPair = self.isMirror(left.left, right.right)
-#           inPiar = self.isMirror(left.right, right.left)
-#           return outPair and inPiar
-#         else:
-#           return False
-        
-        
         # ----------------------------(referenced answer)
 #       def isSymmetric(self, root):
 #         if root is None:
