@@ -4,7 +4,14 @@ class Solution:
     def findMin(self, nums: List[int]) -> int:
         # When rotating, the direaction is going to the right like: --->; numbers moving to higher indices
         
-        # ----------------Divide and Conquer/Recursion----------------------------
+        
+        
+# -----------------------------------TODO: Binary Search-----------------------------------
+       
+    
+    
+    
+    # ----------------Divide and Conquer/Recursion----------------------------
         lo = 0
         hi = None
         
@@ -24,7 +31,6 @@ class Solution:
             
 
         return check_min(lo, len(nums)-1)
-        
         
         
         # -----------------Brute force------------------------
