@@ -1,5 +1,3 @@
-# 287. Find the Duplicate Number
-
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
         
@@ -42,6 +40,6 @@ class Solution:
                 return finder
             
             
-        
+        # -------------Another Method: Indexing sort------------
             
         
