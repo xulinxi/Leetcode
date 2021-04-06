@@ -23,6 +23,7 @@ class Solution:
 
                 
             max_len = max(max_len, end - start + 1)
+            # Store 1-indexed in dictionary (if only 1 char exists, the length will be returned as 1)
             prev_chars[s[end]] = end + 1
             
         return max_len
