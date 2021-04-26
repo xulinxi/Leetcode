@@ -15,6 +15,8 @@ class FindElements:
 
 # If you create new variables with these names inside your new function, they "shadow" the variables with those names in the outer scope, meaning the names from the outer scope are inaccessible as long as the same names refer to something else in the inner scope. self is just a normal variable name with no special meaning, except that it's the first parameter of a class's instance function, and thus gets passed implicitly when the method is called via the dot operator - meaning that it's subject to these rules. 
 
+# Python method scope
+
         def recover(root):
             if root:
                 self.val_set.add(root.val)
