@@ -1,6 +1,3 @@
-# 745. Prefix and Suffix Search
-
-
 # # Note: we are going to use defaultdict(no keyError because has a default key value) for this problem. 
 #     One example of defaultdict with set:
 #         from collections import defaultdict
