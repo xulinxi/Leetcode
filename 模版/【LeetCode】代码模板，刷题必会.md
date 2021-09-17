@@ -57,7 +57,7 @@ def binary_search(l, r):
     return left
     ```
     
-    For example, [LeetCode 69](https://leetcode.com/problems/sqrtx/)
+    For example, [LeetCode 69](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
       
   
   
