@@ -18,7 +18,7 @@ Range: [l, r) 左闭右开
 def binary_search(l, r):
   while l < r:
     m = l + (r - l) // 2
-    if f(m):  # 判断着了没有，optional
+    if f(m):  # 判断找了没有，optional
       return m
     if g(m):
       r = m.  # new range [l, m)
@@ -26,6 +26,22 @@ def binary_search(l, r):
       l = m + 1 # new range [m+1, r)
   return l  # or not found
   ```
+  
+  lower bound: find index of i, such that ```A[i] >= x ```
+  
+  ``` python
+  def lower_bound(self, nums, target):
+    # find in range [left, right)
+    left, right = 0, len(nums)
+    while left < right:
+      mid = left + (right - left) // 2
+      if nums[mid] < target:
+        left = mid + 1
+      else:
+        right = mid
+    return left
+  ```
+      
   
   
 
