@@ -306,7 +306,27 @@ def binary_search(l, r):
           return False
    ```   
                     
-                    
+# Backtracking 
+   
+下面这个题使用了回溯法，但是写的不够简单干练，遇到更好的解法的时候，要把这个题进行更新。
+
+这个回溯思想，先去添加一个新的状态，看在这个状态的基础上，能不能找结果，如果找不到结果的话，那么就回退，即把这个结果和访问的记录给去掉。这个题使用了return True的方法让我们知道已经找出了结果，所以不用再递归了。
+
+   ## Practice Question(s): 
+   ### (Leetcode) 
+   #### [753. Cracking the Safe](https://leetcode.com/problems/cracking-the-safe/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82945477)
+
+   ``` python
+   class Solution(object):
+      def crackSafe(self, grid):
+          """
+          :type grid: List[List[int]]
+          :rtype: int
+          """
+          n = len(grid)
+          left, right = 0, n * n - 1
+          while left <= right:
+              mi                    
                     
                     
                     
@@ -341,4 +361,6 @@ def binary_search(l, r):
 
 
 
-
+————————————————
+版权声明：本文为CSDN博主「负雪明烛」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/fuxuemingzhu/article/details/101900729
