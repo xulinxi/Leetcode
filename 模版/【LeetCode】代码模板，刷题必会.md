@@ -320,13 +320,207 @@ def binary_search(l, r):
    class Solution(object):
       def crackSafe(self, grid):
           """
-          :type grid: List[List[int]]
-          :rtype: int
+          :type n: int
+          :type k: int
+          :rtype: str
           """
-          n = len(grid)
-          left, right = 0, n * n - 1
-          while left <= right:
-              mi                    
+          res = ["0"] * n
+          size = k ** n
+          visited = set()
+          visited.add("".join(res))
+          if self.dfs(res, visited, size, n, k):
+              return "".join(res)
+          return ""
+      
+      def dfs(self, res, visited, size, n, k):
+          if len(visited) == size:
+              return True
+          node = "".join(res[len(res) - n + 1:])
+          for i in range(k):
+              node = node + str(i)
+              if node not in visited:
+                  res.append(str(i))
+                  visited.add(node)
+                  if self.dfs(res, visited, size, n, k):
+                      return True
+                  res.pop()
+                  visited.remove(node)
+              node = node[:-1]
+   ```
+   
+#### [312. Burst Balloons](https://leetcode.com/problems/burst-balloons/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82928879)
+
+  ``` python
+      class Solution(object):
+          def maxCoins(self, nums):
+              """
+              :type nums: List[int]
+              :rtype: int
+              """
+              n = len(nums)
+              nums.insert(0, 1)
+              nums.append(1)
+              c = [[0] * (n + 2) for _ in range(n + 2)]
+              return self.dfs(nums, c, 1, n)
+              
+          def dfs(self, nums, c, i, j):
+              if i > j: return 0
+              if c[i][j] > 0: return c[i][j]
+              if i == j: return nums[i - 1] * nums[i] * nums[i + 1]
+              res = 0
+              
+              for k in range(i, j + 1):
+                  res = max(res, self.dfs(nums, c, i, k - 1) + nums[i - 1] * nums[k] * nums[j + 1] + self.dfs(nums, c, k + 1, j))
+              c[i][j] = res
+              return c[i][j]
+  ```   
+  
+  ``` java
+      class Solution {
+      public:
+          int countArrangement(int N) {
+              int res = 0;
+              vector<int> visited(N + 1, 0);
+              helper(N, visited, 1, res);
+              return res;
+          }
+      private:
+          void helper(int N, vector<int>& visited, int pos, int& res) {
+              if (pos > N) {
+                  res++;
+                  return;
+              }
+              
+              for (int i = 1; i <= N; i ++) {
+                  if (visited[i] == 0 && (i % pos == 0 || pos % i == 0)) {
+                      visited[i] = 1;
+                      helper(N, visited, pos + 1, res);
+                      visited[i] = 0;
+                  }
+              }
+          }
+      };
+  ```
+  
+  Backtracking with saving path:
+  如果需要保存路径的回溯法：
+  
+  ``` java
+      class Solution {
+      public:
+          vector<vector<int>> permute(vector<int>& nums) {
+              const int N = nums.size();
+              vector<vector<int>> res;
+              vector<int> path;
+              vector<int> visited(N, 0);
+              dfs(nums, 0, visited, res, path);
+              return res;
+          }
+      private:
+          void dfs(vector<int>& nums, int pos, vector<int>& visited, vector<vector<int>>& res, vector<int>& path) {
+              const int N = nums.size();
+              if (pos == N) {
+                  res.push_back(path);
+                  return;
+              }
+              for (int i = 0; i < N; i ++) {
+                  if (!visited[i]) {
+                      visited[i] = 1;
+                      path.push_back(nums[i]);
+                      dfs(nums, pos + 1, visited, res, path);
+                      path.pop_back();
+                      visited[i] = 0;
+                  }
+              }
+          }
+      };         
+  ```
+  
+
+# Tree
+# Recursion
+## Practice Question(s): 
+### (Leetcode) 
+#### [617. Merge Two Binary Trees](https://leetcode.com/problems/merge-two-binary-trees/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/79052953) 
+把两个树重叠，重叠部分求和，不重叠部分是两个树不空的节点。
+
+  ``` python
+      class Solution:
+          def mergeTrees(self, t1, t2):
+              if not t2:
+                  return t1
+              if not t1:
+                  return t2
+              newT = TreeNode(t1.val + t2.val)
+              newT.left = self.mergeTrees(t1.left, t2.left)
+              newT.right = self.mergeTrees(t1.right, t2.right)
+              return newT         
+  ```   
+  
+  # Iteration
+  ## Practice Question(s): 
+  ### (Leetcode) 
+  #### [226. Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/51284488) 
+  
+  ``` python
+  # Definition for a binary tree node.
+  # class TreeNode(object):
+      def __init__(self, x):
+          self.val = x
+          self.left = None
+          self.right = None
+          
+  class Solution(object):
+      def invertTree(self, root):
+          """
+          :type root: TreeNode
+          :rtype: TreeNode
+          """
+          stack = []
+          stack.append(root)
+          while stack:
+              node = stack.pop()
+              if not node:
+                  continue
+              node.left, node.right = node.right, node.left
+              stack.append(node.left)
+              stack.append(node.right)
+          return root
+  ```
+  
+  # Preoder Traversal
+  ## Practice Question(s): 
+  ### (Leetcode) 
+  #### [144. Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/72575422) 
+  
+  ``` python
+  # Definition for a binary tree node.
+  # class TreeNode(object):
+      def __init__(self, x):
+          self.val = x
+          self.left = None
+          self.right = None
+          
+  class Solution(object):
+      def preorderTraversal(self, root):
+          """
+          :type root: TreeNode
+          :rtype: List[int]
+          """
+          if not root: return []
+          res = []
+          stack = []
+          stack.append(root)
+          while stack:
+              node = stack.pop()
+              if not node:
+                  continue
+              res.append(node.val)
+              stack.append(node.right)
+              stack.append(node.left)
+          return res
+  ```
+             
                     
                     
                     
