@@ -41,6 +41,23 @@ def binary_search(l, r):
         right = mid
     return left
   ```
+  
+  upper bound: find index of i, such that ```A[i] > x```
+  
+  ``` python
+  def higher_bound(self, nums, target):
+    # find in range [left, right)
+    left, right = 0, len(nums)
+    while left < right:
+      mid = left + (right - left) // 2
+      if nums[mid] <= target:
+        left = mid + 1
+      else:
+        right = mid
+    return left
+    ```
+    
+    For example, [LeetCode 69](https://leetcode.com/problems/sqrtx/)
       
   
   
