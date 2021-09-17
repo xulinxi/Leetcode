@@ -262,7 +262,49 @@ def binary_search(l, r):
             return res
    ```     
    
+# DFS
    
+   下面的这个写法是在一个邻接矩阵中找出离某一个点距离是k的点。
+
+   ## Practice Question(s): 
+   ### (Leetcode) 
+   #### [329. Longest Increasing Path in a Matrix](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82917210)
+   #### [417. Pacific Atlantic Water Flow](https://leetcode.com/problems/pacific-atlantic-water-flow/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82917037)
+   #### [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82926674)
+
+   Binary Search + DFS
+   
+   ``` python
+   class Solution(object):
+      def swimInWater(self, grid):
+          """
+          :type grid: List[List[int]]
+          :rtype: int
+          """
+          n = len(grid)
+          left, right = 0, n * n - 1
+          while left <= right:
+              mid = left + (right - left) / 2
+              if self.dfs([[False] * n for _ in range(n)], grid, mid, n, 0, 0):
+                  right = mid - 1
+              else:
+                  left = mid + 1
+          return left
+          
+      def dfs(self, visited, grid, mid, n, i, j):
+          visited[i][j] = True
+          if i == n - 1 and j == n - 1:
+              return True
+          directions = [(0, 1), (0, -1), (-1, 0), (1, 0)]
+          
+          for dir in directions:
+              x, y = i + dir[0], j + dir[1]
+              if x < 0 or x >= n or y < 0 or y >= n or visited[x][y] or max(mid, grid[x][j]) != max(mid, grid[x][y]):
+                  continue
+              if self.dfs(visited, grid, mid, n, x, y):
+                  return True
+          return False
+   ```   
                     
                     
                     
