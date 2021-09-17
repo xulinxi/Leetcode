@@ -55,9 +55,57 @@ def binary_search(l, r):
       else:
         right = mid
     return left
-    ```
+   ```
     
-    For example, [LeetCode 69](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+   
+   For example, [LeetCode 69](https://leetcode.com/problems/sqrtx/) and [its solution](https://blog.csdn.net/fuxuemingzhu/article/details/79254648).
+   
+   ``` python
+   class Solution(object):
+      def mySqrt(self, x):
+          """
+          :type x: int
+          :rtype: int
+          """
+          left, right = 0, x + 1
+          #[left, right)
+          while left < right:
+              mid = left + (right - left) // 2
+              if mid ** 2 == x:
+                  return mid
+              if mid ** 2 < x:
+                  left = mid + 1
+              else:
+                  right = mid
+          return left - 1
+   ```
+   
+   # Sorting
+   
+   C++的排序方法，使用sort并且重写comparator，如果需要使用外部变量，需要在中括号中放入&。
+
+   ## Practice Question(s): 
+   ### (Leetcode) 
+   #### [451. Sort Characters By Frequency](https://leetcode.com/problems/sort-characters-by-frequency/)
+   
+   ``` C++
+   class Solution {
+   public:
+      string frequencySort(string s) {
+          unordered_map<char, int> m;
+          for (char c : s) ++m[c];
+          sort(s.begin(), s.end(), [&](char& a, char& b) {
+              return m[a] > m[b] || (m[a] == m[b] && a < b);
+          });
+          return s;
+      }
+   }; 
+   ```
+    
+ 
+   
+   
+   
       
   
   
