@@ -375,7 +375,7 @@ def binary_search(l, r):
               return c[i][j]
   ```   
   
-  ``` java
+  ``` C++
       class Solution {
       public:
           int countArrangement(int N) {
@@ -405,7 +405,7 @@ def binary_search(l, r):
   Backtracking with saving path:
   如果需要保存路径的回溯法：
   
-  ``` java
+  ``` C++
       class Solution {
       public:
           vector<vector<int>> permute(vector<int>& nums) {
@@ -564,7 +564,7 @@ def binary_search(l, r):
   
   Iterative method:
   
-  ``` java
+  ``` C++
       /**
       * Definition for a binary tree node
       * struct TreeNode {
@@ -594,14 +594,14 @@ def binary_search(l, r):
       };
   ```
   
-  # Construct a complete binary tree (构建完全二叉树)
+# Construct a complete binary tree (构建完全二叉树)
 
 完全二叉树是每一层都满的，因此找出要插入节点的父亲节点是很简单的。如果用数组tree保存着所有节点的层次遍历，那么新节点的父亲节点就是tree[(N -1)/2]，N是未插入该节点前的树的元素个数。
 构建树的时候使用层次遍历，也就是BFS把所有的节点放入到tree里。插入的时候直接计算出新节点的父亲节点。获取root就是数组中的第0个节点。
 
-  ## Practice Question(s): 
-  ### (Leetcode) 
-  #### [919. Complete Binary Tree Inserter](https://leetcode.com/problems/complete-binary-tree-inserter/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82958284) 
+## Practice Question(s): 
+### (Leetcode) 
+#### [919. Complete Binary Tree Inserter](https://leetcode.com/problems/complete-binary-tree-inserter/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82958284) 
   
   ``` python
       # Definition for a binary tree node.
@@ -654,7 +654,121 @@ def binary_search(l, r):
                
   ```
              
+# Disjoin Set Union (并查集)
+
+不包含rank的话，代码很简短，应该背会。
+
+## Practice Question(s): 
+### (Leetcode) 
+#### [721. Accounts Merge](https://leetcode.com/problems/accounts-merge/)
+  
+  ``` python
+      class DSU:
+          def __init__(self):
+              self.par = range(10001)
+              
+          def find(self, x):
+              if x != self.par[x]:
+                  self.par[x] = self.find(self.par[x])
+              return self.par[x]
+              
+          def union(self, x, y):
+              self.par[self.find(x)] = self.find(y)
+           
+          def same(self, x, y):
+              return self.find(x) == self.find(y)
+  ```
+  
+  C++版本如下：
+  
+  ``` C++
+      vector<int> map_; // i 的 parent，默认是 i
+      int f(int a) {
+          if (map_[a] == a)
+              return a;
+          return f(map_[a]); 
+      }
+      
+      void u(int a, int b) {
+          int pa = f(a);
+          int pb = f(b);
+          if (pa == pb)
+              return;
+          map_[pa] = pb;
+  ```
+  
+  包含rank的，这里的rank表示树的高度：
+  
+#### [684. Redundant Connection](https://leetcode.com/problems/redundant-connection/)
+
+  ``` python
+  class DSU(object):
+      def __init__(self):
+          self.par = range(1001)
+          self.rnk = [0] * 1001
+          
+      def find(self, x):
+          if self.par[x] != x:
+              self.par[x] = self.find(self.par[x])
+          return self.par[x]
+      
+      def union(self, x, y):
+          xr, yr = self.find(x), self.find(y)
+          if xr == yr:
+              return False
+          elif self.rnk[xr] < self.rnk[yr];
+              self.par[xr] = yr
+          elif self.rnk[xr] > self.rnk[yr]:
+              self.par[yr] = xr
+          else:
+              self.par[yr] = xr
+              self.rnk[xr] += 1
+          return True
+  ```
+  
+  另外一种rank方法是，保存树中节点的个数。
+  
+  ``` python
+  class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        
+        dsu = DSU()
+        N = len(isConnected)
+        for i in range(N):
+            for j in range(i, N):
+                if isConnected[i][j]:
+                    dsu.u(i, j)
                     
+        res = 0
+        for i in range(N):
+            if dsu.f(i) == i:
+                res += 1
+        return res
+
+    
+class DSU(object):
+    def __init__(self):
+        self.d = range(201)
+        self.r = [0] * 201
+        
+    def f(self, a):
+        return a if a == self.d[a] else self.f(self.d[a])
+    
+    def u(self, a, b):
+        pa = self.f(a)
+        pb = self.f(b)
+        if (pa == pb):
+            return
+        if self.r[pa] < self.r[pb]:
+            self.d[pa] = pb
+            self.r[pb] += self.r[pa]
+        else:
+            self.d[pb] = pa
+            self.r[pa] == self.r[pb]
+        
+  ```
+              
+          
                     
                     
                     
