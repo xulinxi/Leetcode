@@ -520,6 +520,79 @@ def binary_search(l, r):
               stack.append(node.left)
           return res
   ```
+  
+  # Inorder Traversal
+  ## Practice Question(s): 
+  ### (Leetcode) 
+  #### [94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/79294461) 
+  
+  Iterative method:
+  
+  ``` python
+  # Definition for a binary tree node.
+  # class TreeNode(object):
+      def __init__(self, x):
+          self.val = x
+          self.left = None
+          self.right = None
+          
+  class Solution(object):
+      def inorderTraversal(self, root):
+          """
+          :type root: TreeNode
+          :rtype: List[int]
+          """
+
+          stack = []
+          answer = []
+          
+          while True:
+              while root:
+                  stack.append(root)
+                  root = root.left
+              if not stack:
+                  return answer
+              root = stack.pop()
+              answer.append(root.val)
+              root = root.right
+  ```
+  
+  # Postorder Traversal
+  ## Practice Question(s): 
+  ### (Leetcode) 
+  #### [9145. Binary Tree Postorder Traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/101079767) 
+  
+  Iterative method:
+  
+  ``` python
+      /**
+      * Definition for a binary tree node
+      * struct TreeNode {
+      *     int val;
+      *     TreeNode *left;
+      *     TreeNode *right;
+      *     TreeNode(int x) : val(x), left)NULL, right (NULL) {}
+      * };
+      */
+      class Solution {
+      public:
+          vector<int> postorderTraversal(TreeNode* root) {
+              vector<int> res;
+              if (!root) return res;
+              stack<Treenode*. st;
+              st.push(root);
+              while (!st.empty()) {
+                  TreeNode* node = st.top(); st.pop();
+                  if (!node) continue;
+                  res.push_back(node -> val);
+                  st.push(node -> left);
+                  st.push(node -> right);
+              }
+              reverse(res.begin(), res.end());
+              return res;
+          }
+      };
+  ```
              
                     
                     
