@@ -728,6 +728,8 @@ def binary_search(l, r):
   
   另外一种rank方法是，保存树中节点的个数。
   
+  #### [547. Number of Provinces (or Friend Circles)](https://leetcode.com/problems/number-of-provinces/)
+  
   ``` python
   class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
@@ -764,11 +766,133 @@ class DSU(object):
             self.r[pb] += self.r[pa]
         else:
             self.d[pb] = pa
-            self.r[pa] == self.r[pb]
-        
+            self.r[pa] == self.r[pb] 
+  ```
+  
+# Trie/Prefix Tree (前缀树)
+
+前缀树的题目可以使用字典解决，代码还是需要背一下的，C++版本的前缀树如下：
+
+## Practice Question(s): 
+### (Leetcode) 
+#### [208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/79388432) 这个题是纯考Trie的。参考代码如下：
+  
+  ``` C++
+  class TrieNode {
+  public:
+      vector<TrieNode*> child;
+      bool isWord;
+      TrieNode() : isWord(false), child(26, nullptr) {
+      }
+      ~TrieNode() {
+          for (auto& c : child)
+              delete c;
+       }
+  };
+   
+  class Trie {
+  public:
+      /** Initialize your data structure here. */
+      Trie() {
+          root = new TrieNode();
+      }
+      
+      /** Inserts a word into the trie. */
+      void insert(string word) {
+          TrieNode* p = root;
+          for (char a : word) {
+              int i = a - 'a';
+              if (!p->child[i])
+                  p->child[i] = new TrieNode();
+              p = p->child[i];
+          }
+          p->isWord = true;
+      }
+      
+      /** Returns if the word is in the trie. */
+      bool search(string word) {
+          TrieNode* p = root;
+          for (char a : word) {
+              int i = a - 'a'
+              if (!p->child[i])
+                  return false;
+              p = p->child[i];
+          }
+          return p->isWord;
+      }
+      
+      
+      /** Returns if there is any word in the trie that starts with the given predix. */
+      bool startsWith(string prefix) {
+          TrieNode* p = root;
+          for (char a : prefix) {
+              int i = a - 'a';
+              if (!p->child[i])
+                  return false;
+              p = p->child[i];
+          }
+          return true;
+      }
+  private:
+      TrieNode* root;
+  };
+  
+  /**
+   * Your Trie object will be instantiated and called as such:
+   * Trie obj = new Trie();
+   * object.insert(word);
+   * bool param_2 = obj.search(word);
+   * bool param_3 = obj.startsWith(prefix);
+   */
   ```
               
-          
+#### [677. Map Sum Pairs](https://leetcode.com/problems/map-sum-pairs/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/79436619) 
+
+``` C++
+    
+    class MapSum {
+    public:
+        /** Initialize your data structure here. */
+        MapSum() {}
+        
+        void insert(string key, int val) {
+            int inc = val - vals_[key];
+            Trie* p = &root;
+            for (const char c : key) {
+                if (!p->children[c])
+                    p->children[c] = new Trie();
+                p->children[c]]->sum += inc;
+                p = p ->children[c];
+            }
+            vals_[key] = val;
+        }
+        
+        int sum(string prefix) {
+            Trie* p = &root;
+            for (const char c : prefix) {
+                if (!p->children[c])
+                    return 0;
+                p = p->children[c];
+            }
+            return p->sum;
+        }
+        
+    private:
+        struct Trie {
+            Trie():children(128, nullptr), sum(0) {}
+            ~Trie(){
+                for (auto child : children)
+                    if (child) delete child;
+                children.clear();
+            }
+            vector<Trie*> children;
+            int sum;
+        };
+        
+        Trie root;
+        unordered_map,string, int> vals_;
+    };
+```
                     
                     
                     
