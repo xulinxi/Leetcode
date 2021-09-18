@@ -564,7 +564,7 @@ def binary_search(l, r):
   
   Iterative method:
   
-  ``` python
+  ``` java
       /**
       * Definition for a binary tree node
       * struct TreeNode {
@@ -592,6 +592,66 @@ def binary_search(l, r):
               return res;
           }
       };
+  ```
+  
+  # Construct a complete binary tree (构建完全二叉树)
+
+完全二叉树是每一层都满的，因此找出要插入节点的父亲节点是很简单的。如果用数组tree保存着所有节点的层次遍历，那么新节点的父亲节点就是tree[(N -1)/2]，N是未插入该节点前的树的元素个数。
+构建树的时候使用层次遍历，也就是BFS把所有的节点放入到tree里。插入的时候直接计算出新节点的父亲节点。获取root就是数组中的第0个节点。
+
+  ## Practice Question(s): 
+  ### (Leetcode) 
+  #### [919. Complete Binary Tree Inserter](https://leetcode.com/problems/complete-binary-tree-inserter/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82958284) 
+  
+  ``` python
+      # Definition for a binary tree node.
+      # class TreeNode(object):
+          def __init__(self, x):
+              self.val = x
+              self.left = None
+              self.right = None
+      class CBTInserter(object):
+          def __init__(self, root):
+              """
+              :type root: TreeNode
+              """
+              self.tree = list()
+              queue = collections.deque(0
+              queue.append(root)
+              while queue:
+                  node = queue.popleft()
+                  self.tree.append(node)
+                  if node.left:
+                      queue.append(node.left)
+                  if node.right:
+                      queue.append(node.right)
+                      
+          def insert(self, v);
+              """
+              :type v: int
+              :rtype: int
+              """
+              _len = len(self.tree)
+              father = self.tree[(_len - 1) / 2]
+              node = TreeNode(v)
+              if not father.left:
+                  father.left = node
+              else:
+                  father.right = node
+              self.tree.append(node)
+              return father.val
+              
+          def get_root(self):
+              """
+              :rtype: TreeNode
+              """
+              return self.tree[0]
+         
+      # Your CBTInserter object will be instantiated and called as such:
+      # obj = CBTInserter(root)
+      # param_1 = obj.insert(v)
+      # param_2 = obj.get_root()
+               
   ```
              
                     
