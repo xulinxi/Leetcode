@@ -893,6 +893,43 @@ class DSU(object):
         unordered_map,string, int> vals_;
     };
 ```
+
+# Graph Traversal (图遍历)
+
+## Practice Question(s): 
+### (Leetcode) 
+#### [743. Network Delay Time](https://leetcode.com/problems/network-delay-time/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82862769) 这个题很详细。
+
+# Dijkstra Algothrism 
+
+时间复杂度是O(N ^ 2 + E)，空间复杂度是O(N+E).
+
+``` python
+    class Solution:
+        def networkDelayTime(self, times, N, K):
+            """
+            :type times: List[List[int]]
+            :type N: int
+            :type K: int
+            :rtype: int
+            """
+            
+            K -= 1
+            nodes = collections.defaultdict(list)
+            for u, v, w in times:
+                nodes[u - 1].append((v - 1, w))
+            dist = [float('inf')] * N
+            dist[K] = 0
+            done = set()
+            
+            for _ in range(N):
+                smallest = min((d, i) for (i, d) in enumerate(dist) if i not in done)[1]
+                for v, w in nodes[smallest]:
+                    if v not in done and dist[smallest] + w < dist[v]:
+                        dist[v] = dist[smallest] + w
+                done.add(smallest)
+            return -1 if float('inf') in dist else max(dist)       
+```
                     
                     
                     
