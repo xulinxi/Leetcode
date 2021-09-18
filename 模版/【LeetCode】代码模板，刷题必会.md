@@ -900,7 +900,7 @@ class DSU(object):
 ### (Leetcode) 
 #### [743. Network Delay Time](https://leetcode.com/problems/network-delay-time/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82862769) 这个题很详细。
 
-# Dijkstra Algothrism 
+# Dijkstra's Algothrism 
 
 时间复杂度是O(N ^ 2 + E)，空间复杂度是O(N+E).
 
@@ -930,30 +930,429 @@ class DSU(object):
                 done.add(smallest)
             return -1 if float('inf') in dist else max(dist)       
 ```
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+          
+# Floyd-Warshall algorithm 
+
+时间复杂度O(n^3)， 空间复杂度O(n^2)。
+
+``` python
+
+    class Solution:
+        def networkDelayTime(self, times, N, K):
+            """
+            :type times: List[List[int]]
+            :type N: int
+            :type K: int
+            :rtype: int
+            """
             
+            d = [[fload('inf')] * N for _ in range(N)]
+            for time in times:
+                u, v, w = time[0] - 1, time[1] - 1, time[2]
+                d[u][v] = w
             
+            for i in range(N):
+                d[i][j] = 0
+                
+            for k in range(N):
+                for i in range(N):
+                    for j in range(N):
+                        d[i][j] = min(d[i][j], d[i][k], d[k][j])
+            return -1 if float('inf') in d[K - 1] else max(d[K - 1])
+           
+```
+
+# Bellman-Ford algorithm 
+
+时间复杂度O(ne)， 空间复杂度O(n)
+
+``` python
+
+    class Solution:
+        def networkDelayTime(self, times, N, K):
+            """
+            :type times: List[List[int]]
+            :type N: int
+            :type K: int
+            :rtype: int
+            """
             
+            dist = [float('inf')] * N
+            dist[K - 1] = 0
             
+            for i in range(N):
+                for time in times:
+                    u = time[0] - 1
+                    v = time[1] - 1
+                    w = time[2]
+                    
+                    dist[v] = min(dist[v], dist[u] + w)
+            return -1 if float('inf') in dist else max(dist_
             
+```
+
+# Minimum Spanning Tree (最小生成树) 
+
+## Practice Question(s): 
+### (Leetcode) 
+#### [1135. Connecting Cities With Minimum Cost](https://leetcode.com/problems/connecting-cities-with-minimum-cost/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/101214765)
+
+# Kruskal Algorithm
+
+``` C++
+    class Solution {
+    public:
+        static bool cmp(vector<int> & a, vector<int> & b) {
+            return a[a] < b[2];
+        }
+        
+        int find(vector<int> & f, int x) {
+            while(x != f[x]) {
+                x = f[x];
+            }
+            return x;
+        }
+        
+        bool uni(vector<int> & f, int x, int y) {
+            int x1 = find(f,x);
+            int y1 = find(f,y);
+            f[x1] = y1;
             
+            return true;
+        }
+        
+        int minimumCost(int N, vector<vector<int>>& connections) {
+            int ans = 0;
+            int count = 0;
+            vector<int> father(N+1, 0);
             
+            sort(connections.begin(), connections.end(), cmp);
+            for(int i = 0; i<= N; ++i){
+                father[i] = i;
+            }
             
+            for(auto connect : connections) {
+                if(find(father, connect[0]) != find(father, connect[1])) {
+                    count ++;
+                    ans += connect[2];
+                    uni(father, connect[0], connect[1]);
+                    if(count == N-1) {
+                    return ans;
+                    }
+                }
+            }
+            return -1;
+        }
+    };                      
+```
+
+# Prim Algorithm
+
+``` C++
+    struct cmp {
+        bool operator () (const vector<int> &a, const vector<int> &b) {
+            return a[2] > b[2];
+        }
+    }
+    
+    class Solution {
+    public:
+        int minimumCost(int N, vector<vector<int>>& connections) {
+            int ans = 0;
+            int selected = 0;
+            vector<vector<pair<int, int>>> edges(N+1, vector<pair<int, int>>());
+            priority_queue<vector<int>, vector<vector<int>>, cmp> pq;
+            vector<bool> visit(N+1, false);
             
- 
+            /*initial*/
+            for(auto re : connections) {
+                edges[re[0]].push_back(make_pair(re[1], re[2]));
+                edges[re[1]].push_back(make_pair(re[0], re[2]));
+            }
+            
+            if(edges[1].size() == 0) {
+                return -1;
+            }
+            
+            /*kruskal*/
+            selected = 1;
+            visited[1] = true;
+            for(int i = 0; i < edges[1].size(); ++i) {
+                pq.push(vector<int>({1, edges[1][i].first, edges[1][i].second}));
+            }
+            
+            while(!pq.empty()) {
+                vector<int> curr = pq.top();
+                pq.pop();
+                
+                if(!visit[curr[1]]) {
+                    visited[curr[1]] = true;
+                    ans += curr[2];
+                    for(auto e : edges[curr[1]]) {
+                        pq.push(vector,int>({curr[1], e.first, e.second}));
+                    }
+                    selected ++;
+                    if(selected == N) {
+                        return ans;
+                    }
+                }
+            }
+            return -1;
+        }
+    };
+```    
+
+
+# Topological Sorting
+
+## BFS Method:
+
+``` python
+    class Solution(object):
+        def canFinish(self, N, prerequisites):
+            """
+            :type N: int
+            :type prerequisites: List[List[int]]
+            :rtype: bool
+            """
+            graph = collections.defaultdict(list)
+            indegrees = collections.defaultdict(int)
+            
+            for u, v in prerequisites:
+                graph[v].append(u)
+                indegrees[u] += 1
+            
+            for i in range(N):
+                zeroDegree = False
+                for j in range(N):
+                    if indegrees[j] == 0:
+                        zeroDegree = True
+                        break
+                if not zeroDegree: return False
+                indegrees[j] = -1
+                for node in graph[j]:
+                    indegrees[node] -= 1
+            return True
+```
+
+
+## DFS Method:
+
+``` python
+    class Solution(object):
+        def canFinish(self, N, prerequisites):
+        """
+        :type N: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        graph = collections.defaultdict(list)
+        for u, v in prerequisites:
+            graph[u].append(v)
+        # 0 = Unknown, 1 = visiting, 2 = visited
+        visited = [0] * N
+        
+        for i in range(N):
+            if not self.dfs(graph, visited, i):
+                return False
+        return True
+        
+        # Can we add node i to visited successfully?
+        def dfs(self, graph, visited, i):
+            if visited[i] == 1: return False
+            if visited[i] == 2: return True
+            visited[i] = 1
+            for j in graph[i]:
+                if not self.dfs(graph, visited, j):
+                    return False
+            visited[i] = 2
+            return True
+```
+
+如果需要保存拓扑排序的路径：
+(if need to save the topological path)
+
+## BFS Method
+
+``` python
+    class Solution(object):
+        def findOrder(self, numCourses, prerequisites):
+            """
+            :type numCourses: int
+            :type prerequisites: List[List[int]]
+            :rtype: List[int]
+            """
+            graph = collections. defaultdict(list)
+            indegrees = collections.defaultdict(int)
+            
+            for u, v in prerequisites:
+                graph[v].append(u)
+                indegrees[u] += 1
+            path = []
+            
+            for i in range(numCourses):
+                zerDegree = False
+                for j in range(numCourses):
+                    if indegrees[j] == 0:
+                        zeroDegree = True
+                        break
+                if not zeroDegree:  
+                    return []
+                indegrees[j] -= 1
+                path.append(j)
+                for node in graph[j]:
+                    indegrees[node] -= 1
+            return path
+```
+
+## DFS Method:
+
+``` python
+    clas Solution(object):
+        def findOrder(self, numCourses, prerequisites):
+            """
+            :type numCourses: int
+            :type prerequisites: List[List[int]]
+            :rytpe: List[int]
+            """
+            
+            graph = collections. defaultdict(list)
+            for u, v in prerequisites:
+                graph[u].append(v)
+                
+            # 0 = Unknown, 1 = visiting, 2 = visited
+            visited = [0] * numCourses
+            path = []
+            
+            for i in range(numCourses):
+                if not self.dfs(graph, visited, i, path):
+                    return []
+            return path
+        
+        def dfs(self, graph, visited, i, path):
+            if visited[i] == 1: return False
+            if visited[i] == 2: return True
+            visited[i] = 1
+            
+            for j in graph[i]:
+                if not self.dfs(graph, visited, j, path):
+                    return False
+            visited[i] = 2
+            path.append(i)
+            return True
+```
+
+## Practice Question(s): 
+### (Leetcode) 
+#### [207. Course Schedule](https://leetcode.com/problems/course-schedule/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82951771)
+#### [210. Course Schedule II](https://leetcode.com/problems/course-schedule-ii/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/83302328)
+#### [310. Minimum Height Trees](https://leetcode.com/problems/minimum-height-trees/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/83548874)
+
+# Two Pointers
+
+这是一个[模板](https://leetcode.com/problems/minimum-window-substring/discuss/26808/Here-is-a-10-line-template-that-can-solve-most-'%20rel=)，里面的map如果是双指针范围内的字符串字频的话，增加和减少的方式如下。
+
+``` C++
+    int findSubstring(string s) {
+    vector<int> map(128, 0);
+    int counter; // check whether the substring is valid
+    int begin=0, end=0; // two pointers, one point to tail and one head
+    int d; // the length of substring
+    
+    for() {/* initialize the hash map here */ }
+    
+    while(end<s.size()) {
+        if(map[s[end++]]++ ?) {  /* modify counter here */ }
+        while(/* counter condition */) {
+              /* update d here if finding minimum */
+              // increase begin to make it invalid/valid again
+              
+              if(map[s[begin++]]-- ?) { /* modify counter here */ }
+          }
+          
+          /* update d here if finding maximum */
+      }
+      return d;
+  }
+```  
+
+## Practice Question(s): 
+### (Leetcode) 
+#### [424. Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/)
+这个题的map是t的字频，所以使用map更方式和上是相反的。
+
+``` python
+    class Solution(object):
+        def characterReplacement(self, s, k):
+            N = len(s)
+            left, right = 0, 0 # [left, right] 都包括
+            counter = collections.Counter()
+            res = 0
+            while right < N:
+                counter[s[right]] += 1
+                maxCnt = counter.most_common(1)[0][1]
+                while right - left + 1 - maxCnt > k:
+                    counter[s[left]] -= 1
+                    left += 1
+                res = max(res, right - left + 1)
+                right += 1
+            return res
+```
+
+# Dynamic Programming
+# 状态搜索 （memorization？）
+## Practice Question(s): 
+### (Leetcode) 
+#### [688. Knight Probability in Chessboard](https://leetcode.com/problems/knight-probability-in-chessboard/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/82747623)
+#### [62. Unique Paths](https://leetcode.com/problems/unique-paths/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/79337352)        
+#### [63. Unique Paths II](https://leetcode.com/problems/unique-paths-ii/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/83154114)          
+#### [913. Cat and Mouse](https://leetcode.com/problems/cat-and-mouse/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/83350880)  
+#### [576. Out of Boundary Paths](https://leetcode.com/problems/out-of-boundary-paths/) and [solution](https://blog.csdn.net/fuxuemingzhu/article/details/83447155)   
+
+``` python
+    class Solution(object):
+        def findPaths(self, m, n, N, i, j):
+            """
+            :type m: int
+            :type n: int
+            :type N: int
+            :type i: int
+            :type j: int
+            rtype: int
+            """
+            
+            dp = [[0] * n for _ in range(m)]
+            for s in range(1, N + 1):
+                curStatus = [[0] * n for _ in range(m)]
+                for x in range(m):
+                    for y in range(n):
+                        v1 = 1 if x == 0 else dp[x-1][y]
+                        v2 = 1 if x == m - 1 else dp[x + 1][y]
+                        v3 = 1 if y == 0 else dp[x][y - 1]
+                        v4 = 1 if y == n - 1 else dp[x][y + 1]
+                        curStatus[x][y] = (v1 + v2 + v3 + v4) % (10**9 + 7)
+                dp = curStatus
+            return dp[i][j]
+```
+
+# Greedy Algorithm
+
+贪心算法（又称贪婪算法）是指，在对问题求解时，总是做出在当前看来最好的选择。也就是说，不从整体最优上加以考虑，他所作出的是在某种意义上的局部最优解。贪心算法和动态规划算法都是由局部最优导出全局最优，这里不得不比较下二者的区别
+
+贪心算法：
+1.贪心算法中，作出的每步贪心决策都无法改变，因为贪心策略是由上一步的最优解推导下一步的最优解，而上一部之前的最优解则不作保留。
+2.由（1）中的介绍，可以知道贪心法正确的条件是：每一步的最优解一定包含上一步的最优解
+
+动态规划算法：
+1.全局最优解中一定包含某个局部最优解，但不一定包含前一个局部最优解，因此需要记录之前的所有最优解
+2.动态规划的关键是状态转移方程，即如何由以求出的局部最优解来推导全局最优解
+3.边界条件：即最简单的，可以直接得出的局部最优解
+
+贪心是个思想，没有统一的模板。
+
+          
+                    
    
    
    
