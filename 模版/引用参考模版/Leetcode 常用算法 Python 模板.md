@@ -160,8 +160,44 @@ class Solution:
          
 ```
 
+## 乐观锁 （Optimistic lock)
 
+### Resources:
+[Definition of Optimistic lock and pessimistic locking1](https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking)
+[Definition of Optimistic lock and pessimistic locking1](https://leetcode-cn.com/circle/article/NbITSV/)
 
+``` python
+    class OptLock:
+        def__init__(self, data): # data 即为需要并发安全的数据
+            self.lock = threading.RLock()
+            self.data = data
+            self.version = 0
+            
+        def acquire(self): # 获取数据及版本号
+            self.lock.acquire() # 该过程需要加锁是因为下面的语句不是原子操作
+            data, ver = self.data, self.version
+            self.lock.release*(
+            return data, ver
+            
+        def update(self, data, version):  # 更新数据，需要传入以前的版本好
+            self.lock.acquire()
+            if version != self.version: # 当版本号与当前版本号不对应，返回 False
+                self.lock.release()
+                return False
+            else: # 否则返回 True
+                self.data = data
+                self.version += 1
+                self.lock.release()
+                return True
+```          
+
+### Similar Questions:
+(LeetCode)\
+[1117. Building H2O](https://leetcode.com/problems/burst-balloons/) and [its third solution](https://leetcode.com/problems/building-h2o/)
+
+``` python
+
+```
 
 
 
