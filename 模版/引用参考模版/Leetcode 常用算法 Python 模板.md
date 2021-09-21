@@ -357,10 +357,111 @@ class NumMatrix:
 
 ```
 
+## Binary Search Tree
 
+[Binary Search Tree](https://www.geeksforgeeks.org/binary-search-tree-data-structure/)
+
+Binary Search Tree is a node-based binary tree data structure which has the following properties:
+
+The left subtree of a node contains only nodes with keys lesser than the node’s key.
+The right subtree of a node contains only nodes with keys greater than the node’s key.
+The left and right subtree each must also be a binary search tree.
+
+``` python
+    class Node(object):
+        def __init__(self, data):
+            self.left = None
+            self.right = None
+            self.data = data
     
+    class BST():
+        def __init__(self):
+            self.root = None
+            
+        def insert(self, data):
+            def__insert(node):
+                if not node:
+                    return Node(data)
+                
+                if data < node.val:
+                    node.left = __insert(node.left)
+                elif data > node.val:
+                    node.right = __insert(node.right)
+                return node
+            self.root = __insert(self.root)
+            
+        def search(self, data, parent=None):
+            if data < self.data:
+                if self.left is None:
+                    return None, None
+                return self.left.search(data, self)
+            elif data > self.data:
+                if self.right is None:
+                    return None, None
+                return self.right.search(data, self)
+            else:
+                return self, parent
+                
+    class Node(object):
+        def __init__(self, data):
+            self.left = None
+            self.right = None
+            self.data = data
+        
+        def insert(self, data):
+            if self.data:
+                if data < self.data:
+                    if self.left is None:
+                        self.left = Node(data)
+                    else:
+                        self.left.insert(data)
+                        
+                elif data > self.data:
+                    if self.right is None:
+                        self.right = Node(data)
+                    else:
+                        self.right.insert(data)
+            else:
+                self.data = data
+                
+        def search(self, data, parent = None):
+            if data < self.data:
+                if self.left is None:
+                    return None, None
+                return self.left.search(data, self)
+            
+            elif data > self.data:
+                if self.right is None:
+                    return None, None
+                return self.right.search(data, self)
+            else:
+                return self, parent  
+   
+```  
 
+### Similar Questions:
+(LeetCode)\
+[700. Search in a Binary Search Tree](https://leetcode.com/problems/search-in-a-binary-search-tree/) 
 
+``` python
+    # Definition for a binary tree node.
+    # class TreeNode:
+    #     def __init__(self, val=0, left=None, right=None):
+    #         self.val = val
+    #         self.left = left
+    #         self.right = right
+    class Solution:
+        def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+            if not root:
+                return None
+            elif root.val < val:
+                return self.searchBST(root.right, val)
+            elif root.val > val:
+                return self.searchBST(root.left, val)
+            elif root.val == val:
+                return root
+
+```
 
 
 
