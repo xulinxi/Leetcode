@@ -233,6 +233,42 @@ class Solution:
           self.o.release()   
 ```
 
+## 矩阵转置 （Transpose Matrix)
+
+[Matrix Transpose](https://www.cuemath.com/algebra/transpose-of-a-matrix/)
+* The transpose of a matrix is obtained by changing its rows into columns and its columns into rows.
+
+(Only works with M*M matrix)
+``` python
+    for i in range(n):
+        for j in range(i, n):
+            matrix[j][i], matrix[i][j] ==  matrix[i][j], matrix[j][i]
+```
+
+### Similar Questions:
+(LeetCode)\
+[867. Transpose Matrix](https://leetcode.com/problems/transpose-matrix/)
+
+``` python
+    class Solution:
+    def transpose(self, matrix: List[List[int]]) -> List[List[int]]:
+    
+        # # Only works for N*N matrix
+        # for i in range(len(matrix)):
+        #     # * Note: we don't want to do 2 swaps (back to original)
+        #     for j in range(i, len(matrix)):
+        #         matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        # return matrix
+        
+        R, C = len(matrix), len(matrix[0])
+        
+        tMatrix = [[None] * R for _ in range(C)]
+        
+        for r, row in enumerate(matrix):
+            for c, val in enumerate(row):
+                tMatrix[c][r] = val
+        return tMatrix
+```       
 
 
 
