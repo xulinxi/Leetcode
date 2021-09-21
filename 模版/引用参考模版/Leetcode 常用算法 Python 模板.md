@@ -270,6 +270,95 @@ class Solution:
         return tMatrix
 ```       
 
+## Tree Algorithm 
+
+## Binary Indexed Tree (BIT) or Fenwick Tree 树状数组
+
+[Binary Indexed Tree or Fenwick Tree](https://www.geeksforgeeks.org/binary-indexed-tree-or-fenwick-tree-2/)
+
+(Only works with M*M matrix)
+``` python
+    class BIT:
+        def __init__(self, n):
+            self.n = n + 1
+            self.sums = [0] * self.n
+            
+        def update(self, i, delta):
+            while i < self.n: # i 不能为 0！！！
+                self.sums[i] += delta
+                i += i & (-1) # = i & (~i + 1) 用于遗踪最低位的 1
+                
+        def prefixSum(self, i):
+            res = 0
+            while i > 0:
+                res += self.sums[i]
+                i -= i & (-i)
+            return res
+            
+        def rangeSum(self, s, e):
+            return self.prefixSum(e) - self.prefixSum(s - 1)
+```
+
+### Similar Questions:
+(LeetCode)\
+[308. Range Sum Query 2D - Mutable](https://leetcode.com/problems/range-sum-query-2d-mutable/) and [its solution](https://leetcode.com/problems/range-sum-query-2d-mutable/discuss/1332920/Python-Binary-Indexed-Tree-Clean-and-Concise)
+
+``` python
+    class BIT:
+    def __init__(self, size): # One-based indexing
+        self.bit = [0] * (size + 1)
+    
+    def getSum(self, idx):
+        ans = 0
+        while idx > 0:
+            ans += self.bit[idx]
+            idx -= idx & -idx
+        return ans
+    
+    def getSumRange(self, left, right): # right exclusive
+        return self.getSum(right) - self.getSum(left - 1)
+    
+    def update(self, idx, val):
+        while idx < len(self.bit):
+            self.bit[idx] += val
+            idx += idx & -idx
+
+
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        m, n = len(matrix), len(matrix[0])
+        self.bits = [BIT(n) for _ in range(m)]
+        
+        for r in range(m):
+            for c in range(n):
+                diff = matrix[r][c] - self.bits[r].getSumRange(c+1, c+1)
+                self.bits[r].update(c+1, diff)
+        
+        self.matrix = matrix        
+
+    def update(self, row: int, col: int, val: int) -> None:
+        self.matrix[row][col] = val
+        diff = val - self.bits[row] .getSumRange(col + 1, col + 1)
+        self.bits[row].update(col + 1, diff)
+        
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        ans = 0
+        for r in range(row1, row2 + 1):
+            ans += self.bits[r].getSumRange(col1 + 1, col2 + 1)
+        return ans
+        
+
+
+# Your NumMatrix object will be instantiated and called as such:
+# obj = NumMatrix(matrix)
+# obj.update(row,col,val)
+# param_2 = obj.sumRegion(row1,col1,row2,col2)
+
+```
+
+
+    
 
 
 
