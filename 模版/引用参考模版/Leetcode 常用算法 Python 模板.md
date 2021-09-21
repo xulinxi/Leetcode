@@ -193,7 +193,7 @@ class Solution:
 
 ### Similar Questions:
 (LeetCode)\
-[1117. Building H2O](https://leetcode.com/problems/burst-balloons/) and [its third solution](https://leetcode.com/problems/building-h2o/)
+[1117. Building H2O](https://leetcode.com/problems/burst-balloons/) and [its third solution](https://leetcode.com/problems/building-h2o/) and [other solution 1](https://newdee.gitbook.io/leetcode/1117.building_h2o), [other solution 2](https://www.cnblogs.com/niuyourou/p/12446032.html)
 
 #### Concepts:
 * [Semaphore](https://pythontic.com/multithreading/synchronization/semaphore)
