@@ -195,8 +195,42 @@ class Solution:
 (LeetCode)\
 [1117. Building H2O](https://leetcode.com/problems/burst-balloons/) and [its third solution](https://leetcode.com/problems/building-h2o/)
 
-``` python
+#### Concepts:
+* [Semaphore](https://pythontic.com/multithreading/synchronization/semaphore)
+  - A semaphore is a synchronization construct.
+  - Semaphore provides threads with synchronized access to a limited number of resources.
+  - A semaphore is just a variable. The variable reflects the number of currently available resources. For example, a parking lot with a display of number of available slots on a specific level of a shopping mall is a semaphore.
+  - The semaphore is associated with two operations – acquire and release.
+  - When one of the resources synchronized by a semaphore is "acquired" by a thread, the value of the semaphore is decremented.
+  - When one of the resources synchronized by a semaphore is "released" by a thread the value of the semaphore is incremented.
+* [Barrier Objects in Python](https://www.geeksforgeeks.org/barrier-objects-python/)
+  - Each thread calls wait() function upon reaching the barrier. The barrier is responsible for keeping track of the number of wait() calls. If this number goes beyond the number of threads for which the barrier was initialized with, then the barrier gives a way to the waiting threads to proceed on with the execution. All the threads at this point of execution, are simultaneously released.
+* [.wait() method in Python](https://www.geeksforgeeks.org/python-os-wait-method/)
+  - a process to wait for completion of a child process
 
+``` python
+  from threading import Barrier, Semaphore
+  class H2O:
+      def __init__(self):
+          self.b = Barrier(3)
+          self.h = Semaphore(2)
+          self.o = Semaphore(1)
+
+      def hydrogen(self, releaseHydrogen: 'Callable[[], None]') -> None:
+          self.h.acquire()
+          self.b.wait()
+
+          # releaseHydrogen() outputs "H". Do not change or remove this line
+          releaseHydrogen()
+          self.h.release()
+
+      def oxygen(self, releaseOxygen: 'Callable[[], None]') -> None:
+          self.o.acquire()
+          self.b.wait()
+
+          # releaseOxygen() outputs "O". Do not change or remove this line
+          releaseOxygen()
+          self.o.release()   
 ```
 
 
